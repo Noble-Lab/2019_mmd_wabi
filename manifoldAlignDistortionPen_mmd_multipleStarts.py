@@ -79,7 +79,7 @@ def maximum_mean_discrepancy(x, y, kernel=gaussian_kernel_matrix, bandwidth=1.0)
     cost = tf.where(cost > 0, cost, 0, name='value')
   return cost
 
-## parse auguments
+## parse arguments
 parser = argparse.ArgumentParser(description='MMD-MA code')
 parser.add_argument('mat1', type=str, help='input similarity matrix1 in tsv format')
 parser.add_argument('mat2', type=str, help='input similarity matrix2 in tsv format')

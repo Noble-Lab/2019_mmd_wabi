@@ -79,8 +79,10 @@ def maximum_mean_discrepancy(x, y, kernel=gaussian_kernel_matrix, bandwidth=1.0)
     cost = tf.where(cost > 0, cost, 0, name='value')
   return cost
 
-## parse auguments
-parser = argparse.ArgumentParser(description='MMD-MA code')
+## parse arguments
+parser = argparse.ArgumentParser(description='''MMD-MA implementation.\n
+Input: (n by n) similarity matrices in tsv format\n
+Output: (n by p) mapping matrices''')
 parser.add_argument('mat1', type=str, help='input similarity matrix1 in tsv format')
 parser.add_argument('mat2', type=str, help='input similarity matrix2 in tsv format')
 parser.add_argument('--l1', type=float, help='lambda1 in loss function, default is 0.01')
@@ -148,7 +150,7 @@ sess = tf.Session()
 sess.run(init)
 for i in range(10001):
   sess.run(train_step)
-  if (i%100 == 0): 
+  if (i%10000 == 0): 
     np.savetxt("alpha_hat_"+str(k)+"_"+str(i)+".txt", sess.run(alpha))
     np.savetxt("beta_hat_"+str(k)+"_"+str(i)+".txt", sess.run(beta))
     rec = '\t'.join([str(k), str(i), str(sess.run(myFunction)), str(sess.run(mmd_part)), str(sess.run(penalty_part)), str(sess.run(distortion_part))])  

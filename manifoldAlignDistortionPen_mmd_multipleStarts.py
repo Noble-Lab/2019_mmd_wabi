@@ -85,11 +85,11 @@ Input: (n by n) similarity matrices in tsv format\n
 Output: (n by p) mapping matrices''')
 parser.add_argument('mat1', type=str, help='input similarity matrix1 in tsv format')
 parser.add_argument('mat2', type=str, help='input similarity matrix2 in tsv format')
-parser.add_argument('--l1', type=float, help='lambda1 in loss function, default is 0.01')
-parser.add_argument('--l2', type=float, help='lambda2 in loss function, default is 0.001')
-parser.add_argument('--p', type=int, help='embedded dimensions, default is 2')
-parser.add_argument('--bandwidth', type=float, help='Gaussian kernel bandwidth in MMD, default is 1')
-parser.add_argument('--training_rate', type=float, help='training rate for MMD-MA, default is 0.00005')
+parser.add_argument('--l1', type=float, help='lambda1 in loss function, 0.01 by default')
+parser.add_argument('--l2', type=float, help='lambda2 in loss function, 0.001 by default')
+parser.add_argument('--p', type=int, help='embedded dimensions, 2 by default')
+parser.add_argument('--bandwidth', type=float, help='Gaussian kernel bandwidth in MMD, 1 by default')
+parser.add_argument('--training_rate', type=float, help='training rate for MMD-MA, 0.00005 by default')
 parser.add_argument('--seed', type=int, help='random seed, default is 0')
 args = parser.parse_args()
 
@@ -150,7 +150,7 @@ sess = tf.Session()
 sess.run(init)
 for i in range(10001):
   sess.run(train_step)
-  if (i%10000 == 0): 
+  if (i%100 == 0): 
     np.savetxt("alpha_hat_"+str(k)+"_"+str(i)+".txt", sess.run(alpha))
     np.savetxt("beta_hat_"+str(k)+"_"+str(i)+".txt", sess.run(beta))
     rec = '\t'.join([str(k), str(i), str(sess.run(myFunction)), str(sess.run(mmd_part)), str(sess.run(penalty_part)), str(sess.run(distortion_part))])  
